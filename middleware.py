@@ -1,5 +1,5 @@
 """
-Initial thoughts from RT:
+Initial thoughts from Rick T:
     - creating anonymity is the goal
     - middleware could act as a hashtable with initialized buckets 'n' for number of zips
         - key: zipcode
