@@ -19,7 +19,41 @@
 
 import sys
 import zmq
+import random
 
+# Updated subscriber for assignment1
+class Subscriber:
+
+    def __init__(self, address, port, topic, timeToListen):
+        self.address = address
+        self.port = port
+        self.totalTemp = 0
+        self.zipCode = topic
+        self.totalTimesToListen = timeToListen
+        self.listenCounter = 0
+        self.createContext(topic)
+
+    def createContext(self, topic):
+        self.context = zmq.Context()
+        self.socket = self.context.socket(zmq.SUB)
+        self.socket.connect(f"tcp://{self.address}:{self.port}")
+        self.socket.setsockopt_string(zmq.SUBSCRIBE, topic)
+
+    def getMessage(self):
+        self.message = self.socket.recv_string()
+        zipcode, temperature, relhumidity = self.message.split()
+        self.totalTemp += int(temperature)
+        self.listenCounter += 1
+        print("Relative humidity was: %d" % relhumidity)
+        if self.listenCounter.__eq__(self.totalTimesToListen):
+            self.printMessage(zipcode, temperature)
+            self.context.term()
+
+    def printMessage(self, zipcode, temperature):
+        print("Average temperature for zipcode %s is %dF" % self.zipCode, temperature / self.totalTimesToListen + 1)
+
+
+"""
 #  Socket to talk to server
 context = zmq.Context()
 
@@ -55,3 +89,15 @@ for update_nbr in range(10):
 print("Average temperature for zipcode '%s' was %dF" % (
       zip_filter, total_temp / (update_nbr+1))
 )
+"""
+
+#create the subscriber
+rN = random.randint(1,10)
+if rN > 5:
+    addressType = "localhost"
+else:
+    addressType = "10.0.0.1"
+#Idk why its > 1 or 2 so ima just do 1, set default to NYC again
+topic = sys.argv[1] if (sys.argv) > 1 else "10001"
+sub = Subscriber(addressType, "6663, topic, 10")
+sub.getMessage()
