@@ -67,6 +67,5 @@ def middlewaresubscribe(zipcode, temperature, relhumidity):
 
 # Creation of broker
 if __name__ == "__main__":
-    # address_type = sys.argv[1] if len(sys.argv) > 1 else "localhost"
-    ip_address = "localhost"
+    ip_address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
     broker = Broker("6663", "5556", ip_address)
