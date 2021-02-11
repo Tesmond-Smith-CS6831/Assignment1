@@ -24,80 +24,53 @@ import random
 # Updated subscriber for assignment1
 class Subscriber:
 
-    def __init__(self, address, port, topic, timeToListen):
+    def __init__(self, address, port, topic, time_to_listen):
         self.address = address
         self.port = port
         self.totalTemp = 0
         self.zipCode = topic
-        self.totalTimesToListen = timeToListen
+        self.total_times_to_listen = time_to_listen
         self.listenCounter = 0
-        self.createContext(topic)
+        self.message = None
+        self.context = None
+        self.socket = None
+        self.create_context(topic)
 
-    def createContext(self, topic):
+    def create_context(self, topic):
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.SUB)
         self.socket.connect(f"tcp://{self.address}:{self.port}")
         self.socket.setsockopt_string(zmq.SUBSCRIBE, topic)
 
-    def getMessage(self):
-        self.message = self.socket.recv_string()
-        zipcode, temperature, relhumidity = self.message.split()
-        self.totalTemp += int(temperature)
-        self.listenCounter += 1
-        print("Relative humidity was: %d" % relhumidity)
-        if self.listenCounter.__eq__(self.totalTimesToListen):
-            self.printMessage(zipcode, temperature)
-            self.context.term()
+    def get_message(self):
+        for x in range(self.total_times_to_listen):
+            print("Looking for message")
+            self.message = self.socket.recv_string()
+            print("Received message")
+            zipcode, temperature, relhumidity = self.message.split()
+            self.totalTemp += int(temperature)
+            self.listenCounter += 1
+            print("Relative humidity was: {}".format(relhumidity))
+            if self.listenCounter == self.total_times_to_listen:
+                print(self.print_message(zipcode, temperature))
+                self.context.term()
 
-    def printMessage(self, zipcode, temperature):
-        print("Average temperature for zipcode %s is %dF" % self.zipCode, temperature / self.totalTimesToListen + 1)
+    def print_message(self, zipcode, temperature):
+        return "Average temperature for zipcode {} is {}".format(zipcode, temperature)
 
 
-"""
-#  Socket to talk to server
-context = zmq.Context()
-
-# Since we are the subscriber, we use the SUB type of the socket
-socket = context.socket(zmq.SUB)
-
-# Here we assume publisher runs locally unless we
-# send a command line arg like 10.0.0.1
-srv_addr = sys.argv[1] if len(sys.argv) > 1 else "localhost"
-connect_str = "tcp://" + srv_addr + ":5556"
-
-print("Collecting updates from weather server...")
-socket.connect(connect_str)
-
-# Subscribe to zipcode, default is NYC, 10001
-zip_filter = sys.argv[2] if len(sys.argv) > 2 else "10001"
-
-# Python 2 - ascii bytes to unicode str
-if isinstance(zip_filter, bytes):
-    zip_filter = zip_filter.decode('ascii')
-
-# any subscriber must use the SUBSCRIBE to set a subscription, i.e., tell the
-# system what it is interested in
-socket.setsockopt_string(zmq.SUBSCRIBE, zip_filter)
-
-# Process 10 updates
-total_temp = 0
-for update_nbr in range(10):
-    string = socket.recv_string()
-    zipcode, temperature, relhumidity = string.split()
-    total_temp += int(temperature)
-
-print("Average temperature for zipcode '%s' was %dF" % (
-      zip_filter, total_temp / (update_nbr+1))
-)
-"""
-
-#create the subscriber
-rN = random.randint(1,10)
-if rN > 5:
-    addressType = "localhost"
-else:
-    addressType = "10.0.0.1"
-#Idk why its > 1 or 2 so ima just do 1, set default to NYC again
-topic = sys.argv[1] if (sys.argv) > 1 else "10001"
-sub = Subscriber(addressType, "6663, topic, 10")
-sub.getMessage()
+if __name__ == "__main__":
+    #create the subscriber
+    # rN = random.randint(1, 10)
+    # if rN > 5:
+    #     addressType = "localhost"
+    # else:
+    #     addressType = "10.0.0.1"
+    #Idk why its > 1 or 2 so ima just do 1, set default to NYC again
+    print("we're here")
+    # address_type = '10.0.0.1'
+    address_type = "localhost"
+    topic = sys.argv[1] if len(sys.argv) > 1 else "10001"
+    print(topic)
+    sub = Subscriber(address_type, "6663", topic, 10)
+    sub.get_message()

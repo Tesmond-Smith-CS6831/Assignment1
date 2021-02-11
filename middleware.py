@@ -22,47 +22,46 @@ from keyring.backends import null
 
 class Broker:
 
-    def __init__(self, frontendPort, backendPort):
-        self.EstablishBroker(frontendPort, backendPort)
+    def __init__(self, frontend_port, backend_port):
+        self.front = frontend_port
+        self.back = backend_port
+        self.frontendSocket = None
+        self.backendSocket = None
+        self.context = None
+        self.establish_broker(self.front, self.back)
 
-    def EstablishBroker(self, frontendPort, backendPort):
+    def establish_broker(self, frontend_port, backend_port):
         # Needed for zmq
         self.context = zmq.Context()
         # Creation of the socket using XSUB & XPUB because of the potential n number of pubs and subs
         self.frontendSocket = self.context.socket(zmq.XSUB)
         self.backendSocket = self.context.socket(zmq.XPUB)
-        # Bind the sockets to the appopriate address
-        self.frontendSocket.bind(f"tcp://*:{frontendPort}")
-        self.backendSocket.bind(f"tcp://*:{backendPort}")
+        # Bind the sockets to the appropriate address
+        self.frontendSocket.bind(f"tcp://*:{frontend_port}")
+        self.backendSocket.bind(f"tcp://*:{backend_port}")
         # proxy the information from the publisher to the subscriber
-        zmq.proxy(self.frontendSocket, self.backendSocket)
+        return zmq.proxy(self.frontendSocket, self.backendSocket)
 
 
 """
 context = zmq.Context();
-
 # Since we are the middleware we need a pub and sub socket
 # The thought of not have semicolons is insane
 pubSocket = context.socket(zmq.PUB)
 subSocket = context.socket(zmq.SUB)
-
 # Setting the server address for the publisher
 pubAddress = sys.argv[1] if len(sys.argv) > 1 else "localhost"
 pubConnectionPoint = "tcp://" + pubAddress + ":6663"
-
 # Create Publisher bit to push to subscribers
 pubSocket.bind("tcp://*:6663")
-
-
 # Taken from Dr. Gokhale's code
 # publish forever ie publish function
 def middlewarepublish(zipcode, temperature, relhumidity):
     pubSocket.send_string("%i" "%i" "%i" % (zipcode, temperature, relhumidity))
-
-
 def middlewaresubscribe(zipcode, temperature, relhumidity):
     middlewarepublish(zipcode, temperature, relhumidity)
 """
 
 # Creation of broker
-broker = Broker("6663", "rick'slast4digits");
+if __name__ == "__main__":
+    broker = Broker("6663", "6501")
