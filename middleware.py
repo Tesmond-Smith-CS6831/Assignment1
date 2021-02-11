@@ -9,16 +9,8 @@ Initial thoughts from Rick T:
 
     - this allows for neither the client/server knowing the pub/sub servers
 """
-
-
-from random import randrange
-from xxlimited import Null
-
-import sys
 import zmq
 
-# Socket to talk to server
-from keyring.backends import null
 
 class Broker:
 
