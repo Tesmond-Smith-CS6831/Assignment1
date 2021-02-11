@@ -19,7 +19,6 @@
 
 import sys
 import zmq
-import random
 
 # Updated subscriber for assignment1
 class Subscriber:
