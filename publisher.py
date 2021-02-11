@@ -27,7 +27,7 @@ context = zmq.Context()
 # The difference here is that this is a publisher and its aim in life is
 # to just publish some value. The binding is as before.
 socket = context.socket(zmq.PUB)
-socket.bind("tcp://*:5556")
+socket.bind("tcp://*:6663")
 
 # keep publishing 
 while True:

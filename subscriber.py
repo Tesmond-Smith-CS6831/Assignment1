@@ -72,5 +72,5 @@ if __name__ == "__main__":
     address_type = "localhost"
     topic = sys.argv[1] if len(sys.argv) > 1 else "10001"
     print(topic)
-    sub = Subscriber(address_type, "6663", topic, 10)
+    sub = Subscriber(address_type, "5556", topic, 10)
     sub.get_message()
