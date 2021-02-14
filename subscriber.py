@@ -51,7 +51,7 @@ class Subscriber:
             self.listenCounter += 1
             print("Relative humidity was: {}".format(relhumidity))
             if self.listenCounter == self.total_times_to_listen:
-                print(self.print_message(zipcode, temperature))
+                print(self.print_message(zipcode, self.totalTemp))
                 self.context.term()
 
     def print_message(self, zipcode, temperature):
