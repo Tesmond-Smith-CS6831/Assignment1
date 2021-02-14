@@ -41,4 +41,6 @@ class Broker:
 # Creation of broker
 if __name__ == "__main__":
     ip_address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
-    broker = Broker("6663", "5556", ip_address)
+    socket_to_pub = sys.argv[2] if len(sys.argv) > 2 else "6663"
+    socket_to_sub = sys.argv[3] if len(sys.argv) > 3 else "5556"
+    broker = Broker(socket_to_pub, socket_to_sub, ip_address)

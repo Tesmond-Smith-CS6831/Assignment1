@@ -70,6 +70,7 @@ if __name__ == "__main__":
     # address_type = '10.0.0.1'
     address_type = "localhost"
     topic = sys.argv[1] if len(sys.argv) > 1 else "10001"
+    socket_port = sys.argv[2] if len(sys.argv) > 2 else "5556"
     print(topic)
-    sub = Subscriber(address_type, "5556", topic, 10)
+    sub = Subscriber(address_type, socket_port, topic, 10)
     sub.get_message()

@@ -12,7 +12,7 @@
 
 #
 #   Weather update server
-#   Binds PUB socket to tcp://*:5556
+#   Binds PUB socket to tcp://*:6663 or whatever system input socket is
 #   Publishes random weather updates
 #
 import sys
