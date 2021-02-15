@@ -13,7 +13,6 @@ class Subscriber:
         self.message = None
         self.context = None
         self.socket = None
-
         self.create_context(self.zip_code)
 
     def create_context(self, zip_code):
@@ -28,8 +27,9 @@ class Subscriber:
             zipcode, temperature, relhumidity = self.message.split()
             self.total_temp += int(temperature)
             self.listen_counter += 1
+            print("Relative humidity was: {}".format(relhumidity))
             if self.listen_counter == self.total_times_to_listen:
-                print(self.print_message(zipcode, temperature))
+                print(self.print_message(zipcode, self.total_temp))
                 self.context.term()
 
     def print_message(self, zipcode, temperature):
@@ -39,6 +39,7 @@ class Subscriber:
 if __name__ == "__main__":
     address_type = "localhost"
     topic = sys.argv[1] if len(sys.argv) > 1 else "10001"
-    print("Finding average temp for {}...".format(topic))
-    sub = Subscriber(address_type, "5556", topic, 10)
+    socket_port = sys.argv[2] if len(sys.argv) > 2 else "5556"
+    print(topic)
+    sub = Subscriber(address_type, socket_port, topic, 10)
     sub.get_message()
