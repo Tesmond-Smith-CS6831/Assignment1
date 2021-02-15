@@ -19,29 +19,23 @@ class Broker:
         self.front = frontend_port
         self.back = backend_port
         self.ip_to_connect = connect_ip_address
-        self.frontendSocket = None
-        self.backendSocket = None
+        self.frontend_socket = None
+        self.backend_socket = None
         self.context = None
-        self.establish_broker(self.front, self.back)
 
-    def establish_broker(self, frontend_port, backend_port):
-        # Needed for zmq
+    def establish_broker(self):
         while True:
             self.context = zmq.Context()
-            # Creation of the socket using XSUB & XPUB because of the potential n number of pubs and subs
-            self.frontendSocket = self.context.socket(zmq.XSUB)
-            self.backendSocket = self.context.socket(zmq.XPUB)
-            # Bind the sockets to the appropriate address
-            self.frontendSocket.bind(f"tcp://*:{frontend_port}")
-            self.backendSocket.bind(f"tcp://*:{backend_port}")
-            # proxy the information from the publisher to the subscriber
-            zmq.proxy(self.frontendSocket, self.backendSocket)
+            self.frontend_socket = self.context.socket(zmq.XSUB)
+            self.backend_socket = self.context.socket(zmq.XPUB)
+            self.frontendSocket.bind(f"tcp://*:{self.frontend_port}")
+            self.backend_socket.bind(f"tcp://*:{self.backend_port}")
+            zmq.proxy(self.frontend_socket, self.backend_socket)
 
 
-# Creation of broker
 if __name__ == "__main__":
-    # ip_address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
-    ip_address = "localhost"
-    socket_to_pub = sys.argv[1] if len(sys.argv) > 1 else "6663"
-    socket_to_sub = sys.argv[2] if len(sys.argv) > 2 else "5556"
+    ip_address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
+    socket_to_pub = sys.argv[2] if len(sys.argv) > 2 else "6663"
+    socket_to_sub = sys.argv[3] if len(sys.argv) > 3 else "5556"
     broker = Broker(socket_to_pub, socket_to_sub, ip_address)
+    broker.establish_broker()

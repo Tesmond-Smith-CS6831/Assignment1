@@ -22,19 +22,17 @@ from random import randrange
 print("Current libzmq version is %s" % zmq.zmq_version())
 print("Current  pyzmq version is %s" % zmq.__version__)
 
-
 class Publisher:
-    def __init__(self, port_to_bind):
+    def __init__(self, port_to_bind, host):
         self.context = None
         self.socket = None
         self.port = port_to_bind
-        self.initialize_context(port_to_bind)
-        self.publish()
+        self.host = host
 
-    def initialize_context(self, port_to_bind):
+    def initialize_context(self):
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.PUB)
-        self.socket.connect(f"tcp://localhost:{self.port}")
+        self.socket.connect(f"tcp://{self.host}:{self.port}")
 
     def publish(self):
         while True:
@@ -46,6 +44,8 @@ class Publisher:
 
 
 if __name__ == "__main__":
-    port_to_bind = sys.argv[1] if len(sys.argv) > 1 else "6663"
-    publisher = Publisher(port_to_bind)
+    address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
+    port_to_bind = sys.argv[2] if len(sys.argv) > 2 else "6663"
+    publisher = Publisher(port_to_bind, address)
+    publisher.initialize_context()
     publisher.publish()
