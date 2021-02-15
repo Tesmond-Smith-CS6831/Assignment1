@@ -22,15 +22,14 @@ class Broker:
         self.frontend_socket = None
         self.backend_socket = None
         self.context = None
-        self.establish_broker(self.front, self.back, self.ip_to_connect)
 
-    def establish_broker(self, frontend_port, backend_port, host):
+    def establish_broker(self):
         while True:
             self.context = zmq.Context()
             self.frontend_socket = self.context.socket(zmq.XSUB)
             self.backend_socket = self.context.socket(zmq.XPUB)
-            self.frontend_socket.connect(f"tcp://{host}:{frontend_port}")
-            self.backend_socket.bind(f"tcp://*:{backend_port}")
+            self.frontendSocket.bind(f"tcp://*:{self.frontend_port}")
+            self.backend_socket.bind(f"tcp://*:{self.backend_port}")
             zmq.proxy(self.frontend_socket, self.backend_socket)
 
 
@@ -39,3 +38,4 @@ if __name__ == "__main__":
     socket_to_pub = sys.argv[2] if len(sys.argv) > 2 else "6663"
     socket_to_sub = sys.argv[3] if len(sys.argv) > 3 else "5556"
     broker = Broker(socket_to_pub, socket_to_sub, ip_address)
+    broker.establish_broker()
