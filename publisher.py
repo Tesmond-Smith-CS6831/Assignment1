@@ -34,7 +34,7 @@ class Publisher:
     def initialize_context(self, port_to_bind):
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.PUB)
-        self.socket.bind(f"tcp://*:{self.port}")
+        self.socket.connect(f"tcp://localhost:{self.port}")
 
     def publish(self):
         while True:

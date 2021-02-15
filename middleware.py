@@ -32,7 +32,7 @@ class Broker:
             self.frontendSocket = self.context.socket(zmq.XSUB)
             self.backendSocket = self.context.socket(zmq.XPUB)
             # Bind the sockets to the appropriate address
-            self.frontendSocket.connect(f"tcp://{self.ip_to_connect}:{frontend_port}")
+            self.frontendSocket.bind(f"tcp://*:{frontend_port}")
             self.backendSocket.bind(f"tcp://*:{backend_port}")
             # proxy the information from the publisher to the subscriber
             zmq.proxy(self.frontendSocket, self.backendSocket)
@@ -40,7 +40,8 @@ class Broker:
 
 # Creation of broker
 if __name__ == "__main__":
-    ip_address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
-    socket_to_pub = sys.argv[2] if len(sys.argv) > 2 else "6663"
-    socket_to_sub = sys.argv[3] if len(sys.argv) > 3 else "5556"
+    # ip_address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
+    ip_address = "localhost"
+    socket_to_pub = sys.argv[1] if len(sys.argv) > 1 else "6663"
+    socket_to_sub = sys.argv[2] if len(sys.argv) > 2 else "5556"
     broker = Broker(socket_to_pub, socket_to_sub, ip_address)
