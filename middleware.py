@@ -28,8 +28,8 @@ class Broker:
             self.context = zmq.Context()
             self.frontend_socket = self.context.socket(zmq.XSUB)
             self.backend_socket = self.context.socket(zmq.XPUB)
-            self.frontendSocket.bind(f"tcp://*:{self.frontend_port}")
-            self.backend_socket.bind(f"tcp://*:{self.backend_port}")
+            self.frontend_socket.bind(f"tcp://*:{self.front}")
+            self.backend_socket.bind(f"tcp://*:{self.back}")
             zmq.proxy(self.frontend_socket, self.backend_socket)
 
 
