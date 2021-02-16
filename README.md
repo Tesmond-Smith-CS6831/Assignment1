@@ -4,7 +4,7 @@ Developed by: Rick Tesmond and Jordan Smith
 ## Overview
 In order to achieve anonymity between publishers and subscribers, we developed a middleware script that acts as a broker between publishers publishing topics, and subscribers consuming topics. The only requirements for the publisher and subscriber are that they know the host IP for the middleware broker; everything else is taken care of by the broker.
 
-Within our system, the publisher always send the information to the middleware broker, which then sends it to the subscribers for this topic.
+Within our system, to satisfy the requirements of approach number one, we included a flag inside the publisher script which allows the user to toggle between publisher for a specific topic vs. publishing information to the middleware regardless of topic.
 
 ## Running the Program
 System requirements: Ubuntu 20.04, ZMQ, Python3, Mininet, Xterm \

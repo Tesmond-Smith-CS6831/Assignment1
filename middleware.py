@@ -34,6 +34,7 @@ class Broker:
 
 if __name__ == "__main__":
     # ip_address = sys.argv[1] if len(sys.argv) > 1 else "localhost"
+    # print("Sysarg 1. Publisher connection port, 2. Subscriber connection port")
     socket_to_pub = sys.argv[1] if len(sys.argv) > 1 else "6663"
     socket_to_sub = sys.argv[2] if len(sys.argv) > 2 else "5556"
     broker = Broker(socket_to_pub, socket_to_sub)
