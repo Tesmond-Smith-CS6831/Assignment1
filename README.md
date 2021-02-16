@@ -1,12 +1,12 @@
 # Assignment1
 Developed by: Rick Tesmond and Jordan Smith
 
-##Overview
+## Overview
 In order to achieve anonymity between publishers and subscribers, we developed a middleware script that acts as a broker between publishers publishing topics, and subscribers consuming topics. The only requirements for the publisher and subscriber are that they know the host IP for the middleware broker; everything else is taken care of by the broker.
 
 Within our system, the publisher always send the information to the middleware broker, which then sends it to the subscribers for this topic.
 
-##Running the Program
+## Running the Program
 System requirements: Ubuntu 20.04, ZMQ, Python3, Mininet, Xterm \
 Git clone URL: https://github.com/Tesmond-Smith-CS6831/Assignment1.git
 
@@ -42,6 +42,12 @@ Git clone URL: https://github.com/Tesmond-Smith-CS6831/Assignment1.git
 **Ensure you execute Middleware, Publisher, Subscriber in order!**
     
 As soon as the system is set up, you should begin to see Subscribers receiving information for their subscriber topics!
+
+## Unit Testing
+In order for the unit tests to run properly, ensure your dev environment has the dependencies necessary but running 'pip install -r requirements.txt'. This will load your environment with the necessary libraries.
+Once this step is complete, simply run "python3 test.py".
+
+Note the majority of these tests are connectivity tests; please follow the instructions above to fully test out our code/process!
 
 
 
