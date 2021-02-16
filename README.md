@@ -4,7 +4,7 @@ Developed by: Rick Tesmond and Jordan Smith
 ## Overview
 In order to achieve anonymity between publishers and subscribers, we developed a middleware script that acts as a broker between publishers publishing topics, and subscribers consuming topics. The only requirements for the publisher and subscriber are that they know the host IP for the middleware broker; everything else is taken care of by the broker.
 
-Within our system, the publisher always send the information to the middleware broker, which then sends it to the subscribers for this topic.
+Within our system, to satisfy the requirements of approach number one, we included a flag inside the publisher script which allows the user to toggle between publisher for a specific topic vs. publishing information to the middleware regardless of topic.
 
 ## Running the Program
 System requirements: Ubuntu 20.04, ZMQ, Python3, Mininet, Xterm \
@@ -21,6 +21,7 @@ Git clone URL: https://github.com/Tesmond-Smith-CS6831/Assignment1.git
     
 4. Spin up the middleware broker on the host you just recorded the IP for by executing 'python3 middleware.py'
    * The default ports are '6663' and '5556' for publisher and subscriber respectively.
+     * Functionality exists for dynamic port changes based on user preference. 
     * You can customize the ports by running 'python3 middleware.py pub-port sub-port'. For example, 'python3 5556 6444'
     
 5. Spin up the Publishers on other hosts using 'python3 publisher.py ip-of-broker'
@@ -29,6 +30,8 @@ Git clone URL: https://github.com/Tesmond-Smith-CS6831/Assignment1.git
       * ip-of-broker: IP address of the broker. Defaults to 'localhost'
       * custom port: custom publisher port to use. Defaults to '6663'
         * If you choose to use a custom port, ENSURE IT MATCHES THE PUB PORT SET ON THE BROKER!
+      * publisher-flag: This input allows either input 1 - allows publishing of any topic vs. input 2 - publishing of singular topic. Defaults to 1
+      * topic-to-publish: if input 2 is chosen, input for the specific topic to publish on. Defaults to 10001
    * You must use the Broker IP for this to work properly.
     
 6. Spin up the Subscriber on other hosts using 'python3 subscriber.py ip-of-broker topic-zip'
