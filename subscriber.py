@@ -38,7 +38,7 @@ class Subscriber:
 
 
 if __name__ == "__main__":
-    # print("Sysarg 1. Ip address, 2. zip code, 3. port to connect")
+    print("Sysarg 1. Ip address, 2. zip code, 3. port to connect")
     address_type = sys.argv[1] if len(sys.argv) > 1 else "localhost"
     topic = sys.argv[2] if len(sys.argv) > 2 else "10001"
     socket_port = sys.argv[3] if len(sys.argv) > 3 else "5556"
