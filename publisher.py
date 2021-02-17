@@ -47,7 +47,8 @@ class Publisher:
             while True:
                 zipcode = self.zip_code
                 temperature = randrange(-80, 135)
-                self.socket.send_string("{} {} {}".format(zipcode, temperature, datetime.datetime.utcnow()))
+                date_time = datetime.datetime.utcnow().strftime("%m/%d/%Y %H:%M:%S.%f")
+                self.socket.send_string("{},{},{}".format(zipcode, temperature, date_time))
 
 
 if __name__ == "__main__":
