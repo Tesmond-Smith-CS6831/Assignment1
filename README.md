@@ -4,7 +4,9 @@ Developed by: Rick Tesmond and Jordan Smith
 ## Overview
 In order to achieve anonymity between publishers and subscribers, we developed a middleware script that acts as a broker between publishers publishing topics, and subscribers consuming topics. The only requirements for the publisher and subscriber are that they know the host IP for the middleware broker; everything else is taken care of by the broker.
 
-Within our system, to satisfy the requirements of approach number one, we included a flag inside the publisher script which allows the user to toggle between publisher for a specific topic vs. publishing information to the middleware regardless of topic.
+To satisfy the requirements of approach #1 and approach #2, we included a commandline flag for the publisher script, which allows the user to toggle between publisher for a specific topic vs. publishing information to the middleware regardless of topic.
+  * When this flag is set to 1, the publisher will publish any topic information.
+  * When this flag is set to 2, the publisher will publish information for a specific topic.
 
 ## Running the Program
 System requirements: Ubuntu 20.04, ZMQ, Python3, Mininet, Xterm \
@@ -25,19 +27,19 @@ Git clone URL: https://github.com/Tesmond-Smith-CS6831/Assignment1.git
     * You can customize the ports by running 'python3 middleware.py pub-port sub-port'. For example, 'python3 5556 6444'
     
 5. Spin up the Publishers on other hosts using 'python3 publisher.py ip-of-broker'
-   * Example: 'python3 publisher.py 10.0.0.5 6663'
-   * The publisher script takes two commandline arguments: 
+   * Example: 'python3 publisher.py 10.0.0.5'
+   * The publisher script can take four commandline arguments: 
       * ip-of-broker: IP address of the broker. Defaults to 'localhost'
       * custom port: custom publisher port to use. Defaults to '6663'
         * If you choose to use a custom port, ENSURE IT MATCHES THE PUB PORT SET ON THE BROKER!
       * publisher-flag: This input allows either input 1 - allows publishing of any topic vs. input 2 - publishing of singular topic. Defaults to 1
       * topic-to-publish: if input 2 is chosen, input for the specific topic to publish on. Defaults to 10001
-   * You must use the Broker IP for this to work properly.
+          * Example: "python3 publisher.py localhost 6663 2 45208"
     
 6. Spin up the Subscriber on other hosts using 'python3 subscriber.py ip-of-broker topic-zip'
    * Example: 'python3 subscriber.py 10.0.0.5 53715 5556' 
    * Subscriber script takes three command line args:
-     * broker-ip: IP address of middleware broker. Default: 'localhost'
+     * broker-ip: IP address of middleware broker. 'localhost' if running locally.
      * topic-zip: zipcode you are interested in receiving weather info from. Default: '10001'
      * custom port: custom subscriber port. Default '5556'
         * If you choose to use a custom port, ENSURE IT MATCHES THE SUB PORT SET ON THE BROKER!
