@@ -9,7 +9,7 @@ class Subscriber:
         self.port = port
         self.total_temp = 0
         self.zip_code = topic
-        self.total_times_to_listen = time_to_listen
+        self.total_times_to_listen = int(time_to_listen)
         self.listen_counter = 0
         self.message = None
         self.context = None
@@ -41,12 +41,13 @@ class Subscriber:
 
 
 if __name__ == "__main__":
-    # print("Sysarg 1. Ip address, 2. zip code, 3. port to connect")
+    print("Sysarg 1. Ip address, 2. zip code, 3. port to connect")
     address_type = sys.argv[1] if len(sys.argv) > 1 else "localhost"
     topic = sys.argv[2] if len(sys.argv) > 2 else "10001"
     socket_port = sys.argv[3] if len(sys.argv) > 3 else "5556"
+    times_to_listen = sys.argv[4] if len(sys.argv) else 10;
     print(topic)
-    sub = Subscriber(address_type, socket_port, topic, 10)
+    sub = Subscriber(address_type, socket_port, topic, times_to_listen)
     sub.create_context()
     sub.get_message()
-    print("output: {}".format(sub.output))
+    print("Message Touch Times: {}".format(sub.output))
