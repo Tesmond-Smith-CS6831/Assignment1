@@ -45,7 +45,7 @@ if __name__ == "__main__":
     address_type = sys.argv[1] if len(sys.argv) > 1 else "localhost"
     topic = sys.argv[2] if len(sys.argv) > 2 else "10001"
     socket_port = sys.argv[3] if len(sys.argv) > 3 else "5556"
-    times_to_listen = sys.argv[4] if len(sys.argv) else 10;
+    times_to_listen = sys.argv[4] if len(sys.argv) > 4 else 10
     print(topic)
     sub = Subscriber(address_type, socket_port, topic, times_to_listen)
     sub.create_context()
