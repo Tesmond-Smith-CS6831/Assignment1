@@ -17,6 +17,7 @@
 #
 import sys
 import zmq
+import datetime
 from random import randrange
 
 print("Current libzmq version is %s" % zmq.zmq_version())
@@ -40,16 +41,13 @@ class Publisher:
             while True:
                 zipcode = randrange(1, 100000)
                 temperature = randrange(-80, 135)
-                relhumidity = randrange(10, 60)
-
-                self.socket.send_string("{} {} {}".format(zipcode, temperature, relhumidity))
+                date_time = datetime.datetime.utcnow().strftime("%m/%d/%Y %H:%M:%S.%f")
+                self.socket.send_string("{},{},{}".format(zipcode, temperature, date_time))
         else:
             while True:
                 zipcode = self.zip_code
                 temperature = randrange(-80, 135)
-                relhumidity = randrange(10, 60)
-
-                self.socket.send_string("{} {} {}".format(zipcode, temperature, relhumidity))
+                self.socket.send_string("{} {} {}".format(zipcode, temperature, datetime.datetime.utcnow()))
 
 
 if __name__ == "__main__":
