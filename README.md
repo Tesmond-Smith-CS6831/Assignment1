@@ -46,11 +46,21 @@ Git clone URL: https://github.com/Tesmond-Smith-CS6831/Assignment1.git
     
 As soon as the system is set up, you should begin to see Subscribers receiving information for their subscriber topics!
 
-## Unit Testing
+## Testing
+### Unittesting
 In order for the unit tests to run properly, ensure your dev environment has the dependencies necessary but running 'pip install -r requirements.txt'. This will load your environment with the necessary libraries.
 Once this step is complete, simply run "python3 test.py".
 
 Note the majority of these tests are connectivity tests; please follow the instructions above to fully test out our code/process!
+
+### Simulations and Graph Output
+Tested using Mininet and Wireshark.
+
+To ensure our code matched the necessary use cases (approach #1 and approach #2), we ran simulations of the expected I/O rates for our cases. These were captured by running wireshark in tandem with mininet to monitor all traffic and acknowledgements through our middleware.
+
+We saw the expected performance boost from approach #1 where 100 requests flowed in a matter of microseconds, while with approach #2, successfully delivering the topic data to interested subscribers took seconds.
+
+Overall, the I/O flow remained between 50-75 packets/second between both approaches, with intermittent spikes when subscribers were either joined or removed from the system. See output/performancecapture.pdf for this I/O graph.
 
 
 
