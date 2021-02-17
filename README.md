@@ -43,6 +43,7 @@ Git clone URL: https://github.com/Tesmond-Smith-CS6831/Assignment1.git
      * topic-zip: zipcode you are interested in receiving weather info from. Default: '10001'
      * custom port: custom subscriber port. Default '5556'
         * If you choose to use a custom port, ENSURE IT MATCHES THE SUB PORT SET ON THE BROKER!
+     * Number of Replications: This is the amount of times you want to listen for a particular message. Defaults to 10
     
 **Ensure you execute Middleware, Publisher, Subscriber in order!**
     
