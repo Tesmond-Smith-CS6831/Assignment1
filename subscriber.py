@@ -1,5 +1,6 @@
 import sys
 import zmq
+import datetime
 
 
 class Subscriber:
@@ -13,6 +14,7 @@ class Subscriber:
         self.message = None
         self.context = None
         self.socket = None
+        self.output = []
 
 
     def create_context(self):
@@ -24,14 +26,15 @@ class Subscriber:
     def get_message(self):
         for x in range(self.total_times_to_listen):
             self.message = self.socket.recv_string()
-            zipcode, temperature, relhumidity = self.message.split()
+            zipcode, temperature, sent_time = self.message.split(',')
             self.total_temp += int(temperature)
             self.listen_counter += 1
-            print("Relative humidity was: {}".format(relhumidity))
+            _sent_dt = datetime.datetime.strptime(sent_time, "%m/%d/%Y %H:%M:%S.%f")
+            self.output.append((datetime.datetime.utcnow() - _sent_dt).microseconds)
 
-        if self.listen_counter == self.total_times_to_listen:
-            print(self.print_message(self.total_temp / self.total_times_to_listen))
-            self.context.term()
+            if self.listen_counter == self.total_times_to_listen:
+                print(self.print_message(self.total_temp / self.total_times_to_listen))
+                self.context.destroy()
 
     def print_message(self, temperature):
         return "Average temperature for zipcode {} is: {}".format(self.zip_code, temperature)
@@ -46,3 +49,4 @@ if __name__ == "__main__":
     sub = Subscriber(address_type, socket_port, topic, 10)
     sub.create_context()
     sub.get_message()
+    print("output: {}".format(sub.output))
